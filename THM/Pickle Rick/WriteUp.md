@@ -12,6 +12,8 @@
 <br>
 <br>
 <img width="723" height="200" alt="Screenshot from 2026-06-26 10-34-58" src="https://github.com/user-attachments/assets/8ddec3dd-b289-45c5-80ca-231e0c0b485f" />
+<br>
+
 Видя 80 порт и 22, начнём именно с изучения http
 <br>
 <br>
