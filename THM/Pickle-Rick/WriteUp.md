@@ -2,53 +2,34 @@
 title: "Pickle Rick — TryHackMe"
 ---
 
-<style>
-/* Оформление. Применяется на сайте GitHub Pages (в самом репозитории стили срежутся). */
-/* Если сменишь тему и рамки у скриншотов пропадут — поменяй "section img" на "img". */
-section img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 20px auto;
-  border: 1px solid #d0d7de;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0,0,0,.12);
-}
-section h2 {
-  border-left: 4px solid #0969da;
-  padding-left: 12px;
-  margin-top: 40px;
-}
-.wu-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
-.wu-meta span {
-  background: #ddf4ff;
-  border: 1px solid #54aeff80;
-  color: #0969da;
-  font-weight: 600;
-  font-size: 13px;
-  padding: 5px 12px;
-  border-radius: 999px;
-}
-</style>
-
 # Pickle Rick — TryHackMe
 
 <img alt="Pickle Rick" src="https://github.com/user-attachments/assets/0d756119-aa8b-46fd-ac86-e02eb87f38ad" />
 
 <div class="wu-meta">
-<span>Сложность · Лёгкая</span>
-<span>Платформа · TryHackMe</span>
+<span>Сложность <b>Лёгкая</b></span>
+<span>Платформа <b>TryHackMe</b></span>
+</div>
+
+<div class="wu-flags">
+<a href="#flag1">🚩 Флаг 1</a>
+<a href="#flag2">🚩 Флаг 2</a>
+<a href="#flag3">🚩 Флаг 3</a>
 </div>
 
 <img alt="Главная страница комнаты Pickle Rick" src="https://github.com/user-attachments/assets/8e1e9602-a40c-4de6-ade5-fd04872890a0" />
 
 Доброго времени суток. У нас на прохождении Огурчик Рик. Одна из самых популярных комнат на THM, да и в целом в мире. Давайте начнём разбор.
 
+## Разведка
+
 Получив Attacker machine и Lab machine, мы начинаем с самой базовой команды для проверки, с чем мы вообще работаем.
 
 <img alt="Результат сканирования nmap" src="https://github.com/user-attachments/assets/8ddec3dd-b289-45c5-80ca-231e0c0b485f" />
 
 Видя 80 порт и 22, начнём именно с изучения HTTP.
+
+## Веб
 
 <img alt="Главная страница веб-сервера" src="https://github.com/user-attachments/assets/c295094f-faec-404d-9028-804fb71fc4d7" />
 
@@ -78,6 +59,8 @@ section h2 {
 
 В ходе поиска на главной странице был найден юзернейм пользователя. В целом задумка имеет место быть, так как стоит уметь анализировать код и структуру сайта. Имея юзера, можем предположить, что пароль находится в robots.txt.
 
+## Доступ к панели
+
 <img alt="Command Panel после входа" src="https://github.com/user-attachments/assets/125b36d5-a196-4c85-8b99-c553c1063f71" />
 
 И мы зашли. Command Panel уже звучит как что-то исполняемое, начинаем проверять.
@@ -86,9 +69,12 @@ section h2 {
 
 whoami дал результат, а значит, у нас прямая панель для использования команд на сервере от имени www-data. Начинаем осматриваться и проверять, где мы. Команда ls -la вывела нам 2 txt-файла, которые начинаем читать. Хоп — и команда cat не работает, чтение заблокировано? Проверим другие способы. Команда more тоже не работает. Команда less — успех. Чтение файла одобрено, и мы получаем первый флаг. Но можно было сделать всё чуть-чуть проще.
 
+<a id="flag1" class="anchor"></a>
 <img alt="Получение флага через URL" src="https://github.com/user-attachments/assets/da5d1ec4-1934-49c7-96c5-958984053fc2" />
 
 Мы могли просто вписать в URL сам флаг и получить его, а файл clue.txt намекает на то, что 2-й флаг где-то в системе.
+
+## Поиск флагов в системе
 
 <img alt="Команда pwd" src="https://github.com/user-attachments/assets/9040df05-d80d-4b79-b224-3f661349d0cd" />
 
@@ -102,6 +88,7 @@ whoami дал результат, а значит, у нас прямая пан
 
 ls -la /home даёт нам увидеть 2 пользователей. Так как у нас комната про Рика, то и начнём изучать его папку.
 
+<a id="flag2" class="anchor"></a>
 <img alt="Второй флаг в папке Рика" src="https://github.com/user-attachments/assets/0d51e77a-7693-452a-a145-d4a2827aba2f" />
 
 И мы находим 2-й флаг. Но есть небольшой интересный нюанс.
@@ -122,6 +109,8 @@ ls -la /home даёт нам увидеть 2 пользователей. Так
 
 Важных или полезных данных не заметил. Поэтому решаю пробросить ревёрс-шелл и уже полноценно копаться в машине в поисках повышения привилегий, то есть войти в пользователя root.
 
+## Reverse shell
+
 <img alt="Запуск nc на прослушку 4444 порта" src="https://github.com/user-attachments/assets/482dcfb0-b1e7-44f5-9bcb-3b854c60b320" />
 
 Поднимаю nc на прослушку 4444 порта. Пробую стандартные варианты проброса ревёрс-шелла через баш, но не пускает. Пробую вариант с питоном.
@@ -138,6 +127,8 @@ ls -la /home даёт нам увидеть 2 пользователей. Так
 
 Поднимаем оболочку TTY для полноценного шелла и начинаем искать способ эскалации.
 
+## Повышение привилегий
+
 <img alt="Вывод sudo -l" src="https://github.com/user-attachments/assets/80d881c3-b8e0-4c3c-bce6-e0679b6bc0fa" />
 
 Первым делом проверяем sudo -l, чтобы понять вектор. И мы видим, что пользователь www-data может выполнять команды от имени root без пароля. А это значит, что получить оболочку от рута не составит проблем.
@@ -146,6 +137,7 @@ ls -la /home даёт нам увидеть 2 пользователей. Так
 
 И вот мы уже рут без всяких проблем. Теперь наша задача — проверить папку рута на предмет флагов.
 
+<a id="flag3" class="anchor"></a>
 <img alt="Третий флаг в папке root" src="https://github.com/user-attachments/assets/0fa2cfb3-746f-44df-93d7-4bc1b3b047bb" />
 
 И вот мы забираем последний, 3-й флаг.
