@@ -109,14 +109,17 @@ ls -la /home даёт нам увидеть 2 пользователей. Так
 <br>
 <br>
 <img width="766" height="184" alt="Screenshot from 2026-06-26 11-40-15" src="https://github.com/user-attachments/assets/80d881c3-b8e0-4c3c-bce6-e0679b6bc0fa" />
+<br>
 Первым делом проверяем sudo -l чтобы понять вектор. И мы видим что пользователь www-data может выполнять команды от имени root без пароля. А это значит что получить оболочку от рута не составит проблем.
 <br>
 <br>
 <img width="766" height="184" alt="Screenshot from 2026-06-26 11-40-15" src="https://github.com/user-attachments/assets/b67aef36-2700-4bb0-8aba-30b90976ac45" />
+<br>
 И вот мы уже рут без всяких проблем. Теперь наша задача проверить папку рута на предмет флагов
 <br>
 <br>
 <img width="775" height="491" alt="Screenshot from 2026-06-26 11-40-49" src="https://github.com/user-attachments/assets/0fa2cfb3-746f-44df-93d7-4bc1b3b047bb" />
+<br>
 И вот мы забираем последний 3 флаг.
 <br>
 <br>
