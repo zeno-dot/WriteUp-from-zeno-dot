@@ -8,4 +8,4 @@ title: Главная
 
 ## TryHackMe
 
-- [Pickle Rick](THM/Pickle%20Rick/WriteUp.md)
+- [Pickle Rick](THM/Pickle-Rick/WriteUp.md)
