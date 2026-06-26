@@ -1,7 +1,6 @@
 title: WriteUps from zeno-dot
 description: Разборы комнат TryHackMe и других CTF-машин
 baseurl: "/WriteUp-from-zeno-dot"
-theme: jekyll-theme-slate
 
 defaults:
   - scope:
