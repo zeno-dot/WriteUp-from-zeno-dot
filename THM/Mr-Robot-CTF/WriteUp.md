@@ -1,82 +1,165 @@
 ---
-title: "Basic Pentesting — TryHackMe"
+title: "Mr Robot CTF — TryHackMe"
 ---
 
-# Basic Pentesting — TryHackMe
+# Mr Robot CTF — TryHackMe
 
-<img width="1626" height="265" alt="Basic Pentesting" src="https://github.com/user-attachments/assets/461b434d-c13b-4d4c-8857-6a7cb8e63ce2" />
+<img alt="Mr Robot CTF" src="https://github.com/user-attachments/assets/2b1cf4a0-aa30-47b4-8d04-e0f7a562b8ad" />
 
 <div class="wu-meta">
-<span>Сложность <b>Лёгкая</b></span>
+<span>Сложность <b>Средняя</b></span>
 <span>Платформа <b>TryHackMe</b></span>
 </div>
 
-Доброго времени суток на прохождении Basic Pentesting. Очередная популярная комната, поэтому без лишних слов идём к делу.
+<div class="wu-flags">
+<a href="#flag1">🚩 Флаг 1</a>
+<a href="#flag2">🚩 Флаг 2</a>
+<a href="#flag3">🚩 Флаг 3</a>
+</div>
+
+Доброго времени суток. У нас на прохождении Mr Robot CTF. Mr Robot — весьма популярный сериал о хакерах, и вся комната построена на отсылках к нему. Долго не томим и идём к делу.
 
 ## Разведка
 
 Получив Attacker machine и Lab machine, мы начинаем с самой базовой команды для проверки, с чем мы вообще работаем.
 
-<img width="808" height="329" alt="Результат сканирования nmap" src="https://github.com/user-attachments/assets/9b9ddcd7-8d43-4386-89c6-ef844d441cf0" />
+<img alt="Результат сканирования nmap" src="https://github.com/user-attachments/assets/b7a0277d-ae8e-4139-b32b-37593b6fa902" />
 
-Видим http и smb. Скорее всего сам вектор будет развиваться именно через smb, изучаем веб через gobuster.
+Стандартный набор портов, идём по стандартному сценарию через веб.
 
 ## Веб
 
-<img width="1005" height="660" alt="Перебор директорий gobuster" src="https://github.com/user-attachments/assets/79938ccd-dbfe-484f-a9bf-471c6d911f29" />
+<img alt="Веб-интерфейс в виде терминала" src="https://github.com/user-attachments/assets/b1de5628-a9f0-4385-b6ae-0b33322a8f38" />
 
-Видим index.html и development. Изучаем
+На вебе нас ожидает что-то типа терминала. Начинаем проверку каждой фразы, смотрим всякие ролики, файлы и текст. Ничего особенного не находим и идём искать скрытые директории и файлы.
 
-<img width="1195" height="488" alt="Каталог development" src="https://github.com/user-attachments/assets/01856c80-cd47-4594-aee0-1f427f06cc3a" />
+<img alt="Обнаружение CMS WordPress при переборе директорий" src="https://github.com/user-attachments/assets/652340d3-8cdc-4496-88fb-ce5abe51c94e" />
 
-Смотрим оба файла
+Обращаем внимание, что у нас стоит CMS WordPress. Скорее всего, мы будем входить в админку, а значит, нужно найти креды или иные подсказки. Начинаем проверку остальных найденных файлов.
 
-<img width="1195" height="488" alt="Содержимое dev.txt" src="https://github.com/user-attachments/assets/bb4e652d-6e5f-48fe-aecb-3e6eaf77238b" />
-<img width="1195" height="488" alt="Содержимое j.txt" src="https://github.com/user-attachments/assets/7f3147c4-6829-45d5-846f-4019aa28ba0d" />
+<img alt="Подсказка в файлах сайта — часть 1" src="https://github.com/user-attachments/assets/c565a332-2f77-498d-a9c7-464a05d6f8b3" />
+<img alt="Подсказка в файлах сайта — часть 2" src="https://github.com/user-attachments/assets/b8a899f2-61ae-45cc-bca0-24318e2d43ba" />
+<img alt="Подсказка в файлах сайта — часть 3" src="https://github.com/user-attachments/assets/4c9082ab-7b8b-4e60-a546-212a39050bd5" />
 
-По полученным текстам какого-то глобального продвижения нет. Понимаем, что есть внутренние проблемы безопасности и 2 неизвестных пользователя. Проверим вектор smb
+Видим интересные подсказки. Нам дают 2 файла, и мы, естественно, проверяем их.
 
-## SMB
+<a id="flag1" class="anchor"></a>
+<img alt="Первый флаг в файле key-1-of-3.txt" src="https://github.com/user-attachments/assets/572e27e1-5007-4e1c-af96-8e759c2ab8b8" />
 
-<img width="809" height="617" alt="Перечисление SMB и файл staff.txt" src="https://github.com/user-attachments/assets/00b0d0b2-c44a-46c0-9f06-0e4c0bf9989c" />
+Получаем первый флаг в файле key-1-of-3.txt.
 
-В целом ничего важного мы не узнали, кроме наличия 2 пользователей: Jan и Kay. На THM в поле ответа "What is the username?" используем оба имени и понимаем, что нас интересует именно Jan. Пробуем брутить ssh
+<img alt="Словарь fsocity.dic" src="https://github.com/user-attachments/assets/b574b035-8dd8-4f38-84ba-7f6c13a618b2" />
 
-## Перебор SSH
+В файле fsocity.dic мы находим целый список из кучи разных слов. Вероятно, это кастомный словарь для брутфорса. Будем проверять эту теорию, но сначала нужно изучить сам файл — это очень большой список, чтобы вслепую что-то брутить.
 
-<img width="810" height="481" alt="Подбор пароля через Hydra" src="https://github.com/user-attachments/assets/cee36a77-2f69-4dff-a2c2-10eda8d34ce6" />
+## Брутфорс WordPress
 
-Пароль успешно был подобран, входим в машину
+<img alt="Анализ словаря и удаление дубликатов" src="https://github.com/user-attachments/assets/07b8aa56-bd45-4c4f-8958-de954436bef5" />
 
-<img width="923" height="883" alt="Вход по SSH как jan" src="https://github.com/user-attachments/assets/c12ca540-509f-4856-b5ea-fa99987f74bd" />
+Лёгкими проверками мы узнаём, что в списке fsocity.dic 858к строк. Крайне много. Делаем проверку на дубликаты. Бинго! Неповторяющихся слов всего-то 11к, и это уже выглядит более реально под брутфорс. Сохраняем всё в новый файл zenodot.txt и идём исследовать админку.
+
+<img alt="Ответ Invalid username при входе" src="https://github.com/user-attachments/assets/69cff2f2-6f47-44eb-a74b-f70b59c72761" />
+
+Вставляя юзера admin и пробуя пароль 12345678, мы видим интересный ответ — Invalid username. А это значит, что с помощью брута мы можем попробовать найти валидный юзернейм.
+
+<img alt="Перебор юзернеймов через Hydra" src="https://github.com/user-attachments/assets/8b0cc2b5-3886-4885-998a-034058141cb8" />
+
+С помощью гидры мы составляем простенький шаблон для проверки на валидного юзера. Этой командой мы заставляем проверять наличие Invalid username при переборе юзеров с заданным паролем 12345678. То есть если Invalid username пропадает при каком-то логине, то он будет валидным. И мы находим логин — elliot. Так зовут главного героя сериала. К слову отмечу, что wpscan не выдал юзера, так как wp-json/wp/v2/users просто закрыт. Поэтому брут остаётся самым простым вариантом для проверки.
+
+<img alt="Подтверждение валидного логина elliot" src="https://github.com/user-attachments/assets/49b14fff-4be5-4657-998a-fbbc502af5e7" />
+
+Теперь мы видим, что если подставить логин elliot с паролем 12345678, то пишет не Invalid username, а что пароль неверный. Остаётся сбрутить пароль аналогичным образом.
+
+<img alt="Найденный пароль пользователя elliot" src="https://github.com/user-attachments/assets/3addd8e0-bcee-408f-840b-ac68f8c4224e" />
+
+И мы находим пароль. Пароль тоже является отсылкой к сериалу. Пробуем войти в админку.
+
+## Доступ к админке
+
+<img alt="Успешный вход в админку WordPress" src="https://github.com/user-attachments/assets/f5197d61-1230-49d6-85cc-b4edf581845a" />
+
+И мы внутри. Начинаем осматриваться, чтобы понять вектор.
+
+<img alt="Elliot имеет права администратора" src="https://github.com/user-attachments/assets/d3375ffd-f87d-4a57-bd7f-3b2797779c28" />
+
+Elliot уже админ, а значит, права у нас самые высокие и не нужно искать способ их повысить.
+
+<img alt="Редактор PHP-файлов темы" src="https://github.com/user-attachments/assets/297366db-20c0-4b3e-a195-1e65a036f2b2" />
+
+Тут я натыкаюсь на editor — форму редактирования файлов, которые уже есть на сервере. Проверяю, действительно ли этот файл существует и соответствует написанному.
+
+<img alt="Содержимое файла совпадает" src="https://github.com/user-attachments/assets/6e123da7-6177-423b-9958-931de8419566" />
+
+Текст сходится. Значит, мы можем изменить PHP-файл на что угодно. Поэтому будем пробрасывать ревёрс-шелл и заходить на тачку. Воспользуемся pentestmonkey и его готовым вариантом ревёрс-шелла.
+
+## Reverse shell
+
+<img alt="Вставка reverse shell от pentestmonkey" src="https://github.com/user-attachments/assets/3224bb78-347e-41ad-9735-8ea25c28811e" />
+
+Указываем IP и порт в файле и нажимаем Update File.
+
+<img alt="Запуск nc на прослушку порта 6767" src="https://github.com/user-attachments/assets/030e2a23-d043-4e0e-83ab-bd127336a3d3" />
+
+Поднимаем nc на порту 6767.
+
+<img alt="Открытие изменённого файла, белый фон" src="https://github.com/user-attachments/assets/cc0c29f6-20d0-4199-ac4e-b2fdb28f1ecc" />
+
+Заходим на изменённый файл и видим белый фон, а значит, изменение файла точно сработало. Смотрим в nc.
+
+<img alt="Reverse shell получен" src="https://github.com/user-attachments/assets/6ee0d683-5714-4c2d-b4e1-8f7933e0d16c" />
+
+И мы внутри.
+
+## Пользователь robot
+
+<img alt="Стабилизация оболочки" src="https://github.com/user-attachments/assets/1a89a279-4eb7-44cb-916a-0d47d7fc3b01" />
+
+Первым делом поднимаем оболочку и начинаем исследовать. Вспоминаем, что первый флаг назывался key-1-of-3.txt, значит, второй, вероятно, будет key-2-of-3.txt.
+
+<img alt="Поиск файла второго флага" src="https://github.com/user-attachments/assets/0d568785-c6e0-412e-bd20-f18ba163234b" />
+
+Ищем этот файл и успешно находим расположение. Заходим в директорию /home/robot и видим 2 файла. key-2-of-3.txt настроен на чтение только пользователем robot, которым мы не являемся, а значит, и читать смысла нет. Но мы видим второй файл, который намекает на дехэш, чтобы узнать пароль юзера robot.
+
+<img alt="Сохранение хэша пароля robot" src="https://github.com/user-attachments/assets/bf4759e7-b4a7-43a1-9c31-53284e4887c5" />
+
+Сохраняем хэш в файле hash.txt и пробуем дехэш на списке, который давали нам в самом начале, а точнее на его очищенной версии zenodot.txt.
+
+<img alt="Неудачный подбор по словарю zenodot.txt" src="https://github.com/user-attachments/assets/b5d3eb4a-1117-4962-9560-befea9313d54" />
+
+Дехэш неуспешен, пароль не найден. Пробуем словарь rockyou.txt.
+
+<img alt="Пароль найден по rockyou.txt" src="https://github.com/user-attachments/assets/b0a18b69-d700-4699-ad8b-585f4121b163" />
+
+Пароль успешно найден — и это просто английский алфавит по порядку. Теперь заходим как пользователь robot.
+
+<img alt="Переключение на пользователя robot" src="https://github.com/user-attachments/assets/0e5d2bf5-af2e-41e9-9a0b-d914b4d6d907" />
+
+Всё проходит успешно, и остаётся только достать 2-й флаг.
+
+<a id="flag2" class="anchor"></a>
+<img alt="Второй флаг в файле key-2-of-3.txt" src="https://github.com/user-attachments/assets/eb0279a9-aa96-4d7d-ba5f-156f4438a451" />
+
+Второй флаг мы успешно получили. Теперь нужно найти 3-й флаг.
 
 ## Повышение привилегий
 
-Как обычно нас интересует вектор повышения привилегий. В данном случае нам нужен пользователь Kay
+<img alt="Поиск флага и SUID-бинарей" src="https://github.com/user-attachments/assets/d90acdf4-c55b-4ab4-979e-ca22553c30c2" />
 
-<img width="923" height="883" alt="Проверка sudo и SUID" src="https://github.com/user-attachments/assets/c0b47ddd-71b5-4075-8ea6-ff899926064b" />
+find нам не помогает — либо название другое, либо директория закрыта. Вероятнее всего, нам нужен root. Sudo-прав у robot не имеется. Ищем SUID-бинари и натыкаемся на nmap, что явно даёт нам сигнал о вероятной рут-эскалации.
 
-У Jan нет прав судо и не видно необычных бинарей, ищем дальше
+<img alt="Эксплуатация nmap через GTFOBins" src="https://github.com/user-attachments/assets/d11f3bd8-e24d-432a-a5c2-44cceea381b0" />
 
-<img width="923" height="883" alt="Проверка доступа к /etc/shadow" src="https://github.com/user-attachments/assets/2fa48a9a-bb19-4384-ba77-56127df04bb7" />
+Пользуясь gtfobins, находим nmap и пробуем зайти от рута. Предложенный вариант оказывается не совсем корректным: !/bin/sh не даёт оболочку, а вот !sh дал. Синтаксически интерпретатор nmap просто не увидел данный путь, но за счёт PATH вариант с !sh сработал корректно.
 
-В сообщениях писали про /etc/shadow, но чтение недоступно, продолжаем
+<a id="flag3" class="anchor"></a>
+<img alt="Root-доступ и чтение последнего флага" src="https://github.com/user-attachments/assets/7e043f3d-27e5-4a81-9424-060859dc1c14" />
 
-<img width="923" height="883" alt="Домашняя директория Kay с читаемым id_rsa" src="https://github.com/user-attachments/assets/65826b74-63b5-4dc6-8420-d0892818714c" />
+Заходим в папку рута и спокойно читаем последний флаг.
 
-В директории Kay мы видим открытый id_rsa. Пробуем залогиниться не имея пароля через passphrase. Если коротко, то passphrase — это защита от кражи (пароль от самого файла, не пароль пользователя)
-
-<img width="817" height="328" alt="Снятие хэша ключа через ssh2john" src="https://github.com/user-attachments/assets/2b70e303-fa39-4556-aa65-731b4af61c95" />
-<img width="806" height="363" alt="Подбор passphrase через john" src="https://github.com/user-attachments/assets/0c3e5835-1c43-4444-af3d-03797967c727" />
-
-Фраза успешно получена, и мы можем зайти в качестве пользователя Kay. Вектор passphrase оказался верным, важное уточнение в качестве доп информации. Подобные ключи должны иметь права 600 и владельца. Тогда не получилось бы даже файл забрать.
-
-<img width="816" height="818" alt="Вход по SSH как Kay" src="https://github.com/user-attachments/assets/d97dff32-ab0a-4a3e-8a7a-c6f77abd1ad5" />
-
-И получаем последний ответ на последний вопрос "What is the final password you obtain?"
-
-<img width="816" height="309" alt="Финальный пароль в pass.bak" src="https://github.com/user-attachments/assets/e98494c8-8561-4d07-b2eb-41b9313b7b55" />
+<img alt="Третий флаг в файле key-3-of-3.txt" src="https://github.com/user-attachments/assets/c945fc06-1c2c-408d-81e3-dac0a52c5188" />
 
 ## Мнение о комнате
 
-Комната простая и скорее всего из-за этого и весьма популярна. По сути своей вся задача свелась к бруту ssh и бруту passphrase. Даже по системе особо не пришлось лазить. Не говоря о том, что даже думать не нужно, куда лезть и смотреть, т.к. ответы по комнате сами ведут по нужному пути. Даже для новичков такое посоветовать не получится, т.к. банально не развивает логику и мышление о подходе. Пока ищешь ответ, изучаешь то, что тебе не поможет в данном случае, но поможет в других, т.к. изучал ранее. Такое можно в школе давать в качестве интересного квеста.
+В целом комната вышла интересная. Хотя порой не понятно, как THM определяет сложность и время прохождения. Пройти за полчаса можно только в случае, если знаешь, куда тыкать, а пока изучишь весь материал в вебе и посмотришь все ролики — уже может пройти полчаса. Но это больше лирическое отступление.
+
+Комната хорошо показывает, что готовые решения — это не абсолют безопасности. WordPress является одной из самых популярных CMS всего мира, но даже там есть ряд проблем и уязвимостей. Для чего сделали админку такой болтливой — не понятно. Да и в целом админка — это чаще всего дополнительный вектор для атаки, так как могут сбрутить или выловить креды админа. Злоумышленник заходит в админку и может спокойно пролить PHP-шелл, ревёрс-шелл, да хоть снести всё. Админка должна быть урезанной и иметь 2FA с подтверждением хотя бы через мессенджер, а лучше кодом на телефон, чтобы сразу видеть потенциальные атаки. В остальном комната весьма базовая и не менее интересная, особенно для тех, кто смотрел сериал.
