@@ -11,5 +11,4 @@ title: WriteUps
 <li><a href="THM/Mr-Robot-CTF/WriteUp.html">Mr Robot CTF — средняя · WordPress → PrivEsc</a></li>
 <li><a href="THM/Basic-Pentesting/WriteUp.html">Basic Pentesting — лёгкая · Web/SMB → SSH-брут → PrivEsc</a></li>
 <li><a href="THM/Daily-Bugle/WriteUp.html">Daily Bugle — сложная · Joomla SQLi (CVE-2017-8917) → реверс → sudo yum</a></li>
-
 </ul>
