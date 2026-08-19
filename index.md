@@ -12,4 +12,5 @@ title: WriteUps
 <li><a href="THM/Basic-Pentesting/WriteUp.html">Basic Pentesting — лёгкая · Web/SMB → SSH-брут → PrivEsc</a></li>
 <li><a href="THM/Daily-Bugle/WriteUp.html">Daily Bugle — сложная · Joomla SQLi (CVE-2017-8917) → реверс → sudo yum</a></li>
 <li><a href="THM/RootMe/WriteUp.html">RootMe — лёгкая · залив шелла (.php5) → SUID python</a></li>
+<li><a href="THM/DogCat/WriteUp.html">dogcat — средняя · LFI (обход ext) → log poisoning → sudo env → эскейп из docker</a></li>
 </ul>
