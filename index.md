@@ -13,4 +13,5 @@ title: WriteUps
 <li><a href="THM/Daily-Bugle/WriteUp.html">Daily Bugle — сложная · Joomla SQLi (CVE-2017-8917) → реверс → sudo yum</a></li>
 <li><a href="THM/RootMe/WriteUp.html">RootMe — лёгкая · залив шелла (.php5) → SUID python</a></li>
 <li><a href="THM/dogcat/WriteUp.html">dogcat — средняя · LFI (обход ext) → log poisoning → sudo env → эскейп из docker</a></li>
+<li><a href="THM/Wonderland/WriteUp.html">Wonderland — средняя · креды в коде страницы → SSH → подмена модуля python → PATH hijack → capabilities perl</a></li>
 </ul>
