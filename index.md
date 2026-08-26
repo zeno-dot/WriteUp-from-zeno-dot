@@ -14,4 +14,5 @@ title: WriteUps
 <li><a href="THM/RootMe/WriteUp.html">RootMe — лёгкая · залив шелла (.php5) → SUID python</a></li>
 <li><a href="THM/dogcat/WriteUp.html">dogcat — средняя · LFI (обход ext) → log poisoning → sudo env → эскейп из docker</a></li>
 <li><a href="THM/Wonderland/WriteUp.html">Wonderland — средняя · креды в коде страницы → SSH → подмена модуля python → PATH hijack → capabilities perl</a></li>
+<li><a href="THM/Agent-Sudo/WriteUp.html">Agent Sudo — лёгкая · коднейм в User-Agent → брут FTP → binwalk + AES-zip → steghide → CVE-2019-14287</a></li>
 </ul>
