@@ -16,4 +16,5 @@ title: WriteUps
 <li><a href="THM/Wonderland/WriteUp.html">Wonderland — средняя · креды в коде страницы → SSH → подмена модуля python → PATH hijack → capabilities perl</a></li>
 <li><a href="THM/Agent-Sudo/WriteUp.html">Agent Sudo — лёгкая · коднейм в User-Agent → брут FTP → binwalk + AES-zip → steghide → CVE-2019-14287</a></li>
 <li><a href="THM/Internal/WriteUp.html">Internal — сложная · админка WordPress → креды в файле → SSH → Jenkins в docker (брутфорс) → Groovy-шелл → креды рута</a></li>
+<li><a href="THM/Crocc-Crew/WriteUp.html">Crocc Crew — безумная · имена экипажа из дефейса → керберос-энумерация → спрей рок-ю → кербероастинг сервисного аккаунта → делегирование (S4U2self/S4U2proxy) → билет админа и DCSync</a></li>
 </ul>
